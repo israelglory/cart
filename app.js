@@ -109,16 +109,13 @@ function isEmpty(){
             isempty = true;
             footer.style.display = 'none';
             emptyCart.style.display = 'block';
-        } else {
-            
-        }
+        } 
 }
 
 //clear all products
 function clearBtnClick(){
-    alert('Decrease');
-    addToList();
-
+    products = [];
+    isEmpty();
 }
 
 
