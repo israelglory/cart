@@ -10,6 +10,7 @@ let totalPrice = document.getElementById('total-price');
 
 let totalPriceval = 2199.96;
 let isempty = false;
+let cartLenght = 4;
 
 
 let products = [
@@ -68,6 +69,7 @@ function addToList() {
   </article>
       `;
     });
+    
   
     // Set the generated HTML code as the innerHTML of the 'cart-list' div
     productList.innerHTML = html;
@@ -77,11 +79,14 @@ function addToList() {
 
 
 function decreaseBtnClick(index){
-    if(products.length != 1){
+    if(products[index].quantity != 1){
         console.log(index)
         products[index].quantity--;
         totalPriceval = totalPriceval - products[index].price;
         totalPrice.innerHTML = `$${totalPriceval.toFixed(2)}`;
+        decreaseCartLenght(false, index);
+    }else{
+        removeBtnClick(index);
     }
     addToList();
 }
@@ -91,6 +96,7 @@ function increaseBtnClick(index){
         totalPriceval = totalPriceval + products[index].price;
         totalPrice.innerHTML = `$${totalPriceval.toFixed(2)}`;
         addToList();
+        increaseCartLenght();
 }
 
 //Remove each product from the list
@@ -98,10 +104,35 @@ function removeBtnClick(index) {
   let price = products[index].price * products[index].quantity;
   totalPriceval = totalPriceval - price;
   totalPrice.innerHTML = `$${totalPriceval.toFixed(2)}`;
+  decreaseCartLenght(true, index);
   products.splice(index, 1); // Remove the element at the specified index
-  productLenght.innerHTML = products.length;
   addToList();
   isEmpty();
+}
+
+function increaseCartLenght(){
+    if(products.length != 0){
+            cartLenght = cartLenght + 1;
+            productLenght.innerHTML = cartLenght;
+    }else{
+        productLenght.innerHTML = 0;
+    }
+}
+
+
+
+function decreaseCartLenght(isRemove, index){
+    if(cartLenght!= 0){
+        if(isRemove){
+            cartLenght = cartLenght -  products[index].quantity;
+            productLenght.innerHTML = cartLenght;
+        }else {
+            cartLenght = cartLenght - 1;
+        productLenght.innerHTML = cartLenght;
+        }
+    }else{
+        productLenght.innerHTML = 0;
+    }
 }
 
 function isEmpty(){
@@ -109,6 +140,7 @@ function isEmpty(){
             isempty = true;
             footer.style.display = 'none';
             emptyCart.style.display = 'block';
+            productLenght.innerHTML = 0;
         } 
 }
 
